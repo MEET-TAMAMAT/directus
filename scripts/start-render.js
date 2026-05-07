@@ -86,9 +86,9 @@ if (missingEnvVars.length > 0) {
 
 console.log('✅ All environment variables validated');
 
-// Check if database needs initialization
-console.log('🔍 Checking if database needs initialization...');
-const checkDbProcess = spawn('node', ['dist/cli/run.js', 'database', 'install', '--yes'], {
+// Initialize database (bootstrap creates everything needed)
+console.log('🔍 Initializing Directus database...');
+const checkDbProcess = spawn('node', ['dist/cli/run.js', 'bootstrap'], {
     cwd: apiPath,
     stdio: 'pipe',
     env: process.env
