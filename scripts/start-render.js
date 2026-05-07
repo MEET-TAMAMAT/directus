@@ -116,13 +116,27 @@ checkDbProcess.on('close', (code) => {
         console.log(`⚠️ Database check/init completed with code ${code}`);
     }
 
-    // Admin user will be created automatically by Directus bootstrap via INIT_* environment variables
-    console.log('👤 Admin user will be created automatically via INIT_ADMIN_EMAIL/INIT_ADMIN_PASSWORD');
-    console.log('📧 Admin email: admin@directus.local');
-    console.log('🔐 Admin password: DirectusAdmin123!');
+    // Create admin user directly via database
+    console.log('👤 Creating admin user directly...');
+    const adminCreateProcess = spawn('node', ['../create-admin.js'], {
+        cwd: apiPath,
+        stdio: 'pipe',
+        env: process.env
+    });
 
-    // Start Directus server
-    console.log('🎯 Starting Directus server...');
+    adminCreateProcess.stdout.on('data', (data) => {
+        console.log('👤 Admin Creation:', data.toString().trim());
+    });
+
+    adminCreateProcess.stderr.on('data', (data) => {
+        console.log('⚠️ Admin Creation Warning:', data.toString().trim());
+    });
+
+    adminCreateProcess.on('close', (adminCode) => {
+        console.log(`👤 Admin creation completed with code ${adminCode}`);
+
+        // Start Directus server regardless of admin creation result
+        console.log('🎯 Starting Directus server...');
     const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
         cwd: apiPath,
         stdio: 'inherit',
