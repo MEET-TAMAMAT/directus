@@ -4,7 +4,7 @@ services:
   - type: web
     name: directus-api
     runtime: node
-    plan: starter
+    plan: free  # Use 'free' for development, 'standard' for production
     buildCommand: |
       # Install dependencies
       npm install -g pnpm@10.27.0
@@ -53,7 +53,7 @@ services:
   # PostgreSQL database
 databases:
   - name: directus-postgres
-    plan: starter
+    plan: free  # Use 'free' for development, 'standard-0' for production
     databaseName: directus
     user: directus_user
 
