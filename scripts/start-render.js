@@ -137,31 +137,31 @@ checkDbProcess.on('close', (code) => {
 
         // Start Directus server regardless of admin creation result
         console.log('🎯 Starting Directus server...');
-    const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
-        cwd: apiPath,
-        stdio: 'inherit',
-        env: process.env
-    });
+        const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
+            cwd: apiPath,
+            stdio: 'inherit',
+            env: process.env
+        });
 
-    startProcess.on('error', (error) => {
-        console.error('❌ Failed to start Directus:', error);
-        process.exit(1);
-    });
+        startProcess.on('error', (error) => {
+            console.error('❌ Failed to start Directus:', error);
+            process.exit(1);
+        });
 
-    startProcess.on('close', (code) => {
-        console.log(`🔚 Directus process exited with code ${code}`);
-        process.exit(code);
-    });
+        startProcess.on('close', (code) => {
+            console.log(`🔚 Directus process exited with code ${code}`);
+            process.exit(code);
+        });
 
-    // Handle graceful shutdown
-    process.on('SIGTERM', () => {
-        console.log('🛑 Received SIGTERM, shutting down gracefully...');
-        startProcess.kill('SIGTERM');
-    });
+        // Handle graceful shutdown
+        process.on('SIGTERM', () => {
+            console.log('🛑 Received SIGTERM, shutting down gracefully...');
+            startProcess.kill('SIGTERM');
+        });
 
-    process.on('SIGINT', () => {
-        console.log('🛑 Received SIGINT, shutting down gracefully...');
-        startProcess.kill('SIGINT');
-    });
+        process.on('SIGINT', () => {
+            console.log('🛑 Received SIGINT, shutting down gracefully...');
+            startProcess.kill('SIGINT');
+        });
     });
 });
