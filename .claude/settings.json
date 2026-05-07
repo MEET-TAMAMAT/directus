@@ -1,5 +1,11 @@
 {
-	"enabledMcpjsonServers": ["git"],
+	"enabledMcpjsonServers": ["git", "mailtrap"],
+	"env": {
+		"MAILTRAP_API_TOKEN": "7215f1b871b84d60c9b4a911774a53e2",
+		"DEFAULT_FROM_EMAIL": "noreply@tamamat.app",
+		"MAILTRAP_ACCOUNT_ID": "2523614",
+		"MAILTRAP_TEST_INBOX_ID": "4184548"
+	},
 	"hooks": {
 		"PostToolUse": [
 			{

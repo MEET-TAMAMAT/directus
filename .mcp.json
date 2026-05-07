@@ -6,6 +6,16 @@
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       }
+    },
+    "mailtrap": {
+      "command": "npx",
+      "args": ["-y", "mcp-mailtrap"],
+      "env": {
+        "MAILTRAP_API_TOKEN": "${MAILTRAP_API_TOKEN}",
+        "DEFAULT_FROM_EMAIL": "${DEFAULT_FROM_EMAIL}",
+        "MAILTRAP_ACCOUNT_ID": "${MAILTRAP_ACCOUNT_ID}",
+        "MAILTRAP_TEST_INBOX_ID": "${MAILTRAP_TEST_INBOX_ID}"
+      }
     }
   }
 }

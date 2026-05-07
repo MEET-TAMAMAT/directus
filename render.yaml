@@ -40,14 +40,10 @@ services:
         generateValue: true
       - key: SECRET
         generateValue: true
-      # Admin configuration - Force admin creation on bootstrap
+      # Admin configuration - Use Directus built-in admin creation
       - key: ADMIN_EMAIL
         value: admin@directus.local
       - key: ADMIN_PASSWORD
-        value: DirectusAdmin123!
-      - key: INIT_ADMIN_EMAIL
-        value: admin@directus.local
-      - key: INIT_ADMIN_PASSWORD
         value: DirectusAdmin123!
       # Storage configuration
       - key: STORAGE_LOCATIONS
