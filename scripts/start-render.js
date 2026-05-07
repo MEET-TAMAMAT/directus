@@ -86,31 +86,62 @@ if (missingEnvVars.length > 0) {
 
 console.log('✅ All environment variables validated');
 
-// Start Directus
-console.log('🎯 Starting Directus server...');
-const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
+// Check if database needs initialization
+console.log('🔍 Checking if database needs initialization...');
+const checkDbProcess = spawn('node', ['dist/cli/run.js', 'database', 'install', '--yes'], {
     cwd: apiPath,
-    stdio: 'inherit',
+    stdio: 'pipe',
     env: process.env
 });
 
-startProcess.on('error', (error) => {
-    console.error('❌ Failed to start Directus:', error);
-    process.exit(1);
+let dbInitNeeded = false;
+let dbCheckOutput = '';
+
+checkDbProcess.stdout.on('data', (data) => {
+    const output = data.toString();
+    dbCheckOutput += output;
+    console.log('📊 DB Check:', output.trim());
 });
 
-startProcess.on('close', (code) => {
-    console.log(`🔚 Directus process exited with code ${code}`);
-    process.exit(code);
+checkDbProcess.stderr.on('data', (data) => {
+    const output = data.toString();
+    dbCheckOutput += output;
+    console.log('⚠️ DB Check Warning:', output.trim());
 });
 
-// Handle graceful shutdown
-process.on('SIGTERM', () => {
-    console.log('🛑 Received SIGTERM, shutting down gracefully...');
-    startProcess.kill('SIGTERM');
-});
+checkDbProcess.on('close', (code) => {
+    if (code === 0) {
+        console.log('✅ Database initialized successfully');
+    } else {
+        console.log(`⚠️ Database check/init completed with code ${code}`);
+    }
 
-process.on('SIGINT', () => {
-    console.log('🛑 Received SIGINT, shutting down gracefully...');
-    startProcess.kill('SIGINT');
+    // Start Directus regardless of initialization result
+    console.log('🎯 Starting Directus server...');
+    const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
+        cwd: apiPath,
+        stdio: 'inherit',
+        env: process.env
+    });
+
+    startProcess.on('error', (error) => {
+        console.error('❌ Failed to start Directus:', error);
+        process.exit(1);
+    });
+
+    startProcess.on('close', (code) => {
+        console.log(`🔚 Directus process exited with code ${code}`);
+        process.exit(code);
+    });
+
+    // Handle graceful shutdown
+    process.on('SIGTERM', () => {
+        console.log('🛑 Received SIGTERM, shutting down gracefully...');
+        startProcess.kill('SIGTERM');
+    });
+
+    process.on('SIGINT', () => {
+        console.log('🛑 Received SIGINT, shutting down gracefully...');
+        startProcess.kill('SIGINT');
+    });
 });
