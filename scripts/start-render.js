@@ -178,4 +178,5 @@ checkDbProcess.on('close', (code) => {
         console.log('🛑 Received SIGINT, shutting down gracefully...');
         startProcess.kill('SIGINT');
     });
+    });
 });
