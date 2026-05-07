@@ -50,7 +50,7 @@ services:
       - key: CORS_ORIGIN
         value: true
 
-  # PostgreSQL database
+# PostgreSQL database
 databases:
   - name: directus-postgres
     plan: free  # Use 'free' for development, 'standard-0' for production
