@@ -9,6 +9,7 @@ import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { existsSync } from 'fs';
+import { URL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,6 +27,32 @@ if (!existsSync(distPath)) {
     process.exit(1);
 }
 
+// Parse DATABASE_URL and set individual DB environment variables
+if (process.env.DATABASE_URL) {
+    try {
+        const dbUrl = new URL(process.env.DATABASE_URL);
+
+        process.env.DB_CLIENT = 'pg';
+        process.env.DB_HOST = dbUrl.hostname;
+        process.env.DB_PORT = dbUrl.port || '5432';
+        process.env.DB_DATABASE = dbUrl.pathname.slice(1); // Remove leading slash
+        process.env.DB_USER = dbUrl.username;
+        process.env.DB_PASSWORD = dbUrl.password;
+
+        console.log('✅ Parsed DATABASE_URL and set individual DB environment variables');
+        console.log(`📍 DB_HOST: ${process.env.DB_HOST}`);
+        console.log(`🔌 DB_PORT: ${process.env.DB_PORT}`);
+        console.log(`🗄️ DB_DATABASE: ${process.env.DB_DATABASE}`);
+        console.log(`👤 DB_USER: ${process.env.DB_USER}`);
+    } catch (error) {
+        console.error('❌ Failed to parse DATABASE_URL:', error.message);
+        process.exit(1);
+    }
+} else {
+    console.error('❌ DATABASE_URL environment variable is missing');
+    process.exit(1);
+}
+
 // Set default environment variables if not provided
 const defaultEnvVars = {
     NODE_ENV: 'production',
@@ -37,8 +64,6 @@ const defaultEnvVars = {
     STORAGE_LOCATIONS: 'local',
     STORAGE_LOCAL_DRIVER: 'local',
     STORAGE_LOCAL_ROOT: './uploads',
-    // Database client
-    DB_CLIENT: 'pg',
 };
 
 // Apply default environment variables
@@ -50,7 +75,7 @@ for (const [key, value] of Object.entries(defaultEnvVars)) {
 }
 
 // Verify required environment variables
-const requiredEnvVars = ['DATABASE_URL', 'KEY', 'SECRET'];
+const requiredEnvVars = ['DATABASE_URL', 'KEY', 'SECRET', 'DB_HOST', 'DB_PORT', 'DB_DATABASE', 'DB_USER', 'DB_PASSWORD'];
 const missingEnvVars = requiredEnvVars.filter(key => !process.env[key]);
 
 if (missingEnvVars.length > 0) {
@@ -59,7 +84,7 @@ if (missingEnvVars.length > 0) {
     process.exit(1);
 }
 
-console.log('✅ Environment variables validated');
+console.log('✅ All environment variables validated');
 
 // Start Directus
 console.log('🎯 Starting Directus server...');

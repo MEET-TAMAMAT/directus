@@ -20,7 +20,7 @@ services:
       # Build the API specifically
       cd api && pnpm build
     startCommand: |
-      cd api && node dist/cli/run.js start
+      node scripts/start-render.js
     envVars:
       - key: NODE_ENV
         value: production
