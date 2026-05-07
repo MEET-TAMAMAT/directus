@@ -116,32 +116,62 @@ checkDbProcess.on('close', (code) => {
         console.log(`⚠️ Database check/init completed with code ${code}`);
     }
 
-    // Start Directus server - admin user will be created automatically via INIT_ADMIN_* env vars
-    console.log('🎯 Starting Directus server...');
-    const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
+    // Create admin user using Directus CLI
+    console.log('👤 Creating admin user via Directus CLI...');
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@directus.local';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'DirectusAdmin123!';
+
+    const createUserProcess = spawn('node', [
+        'dist/cli/run.js',
+        'users',
+        'create',
+        '--email', adminEmail,
+        '--password', adminPassword,
+        '--role', 'administrator'
+    ], {
         cwd: apiPath,
-        stdio: 'inherit',
+        stdio: 'pipe',
         env: process.env
     });
 
-    startProcess.on('error', (error) => {
-        console.error('❌ Failed to start Directus:', error);
-        process.exit(1);
+    createUserProcess.stdout.on('data', (data) => {
+        console.log('👤 User Creation:', data.toString().trim());
     });
 
-    startProcess.on('close', (code) => {
-        console.log(`🔚 Directus process exited with code ${code}`);
-        process.exit(code);
+    createUserProcess.stderr.on('data', (data) => {
+        console.log('⚠️ User Creation:', data.toString().trim());
     });
 
-    // Handle graceful shutdown
-    process.on('SIGTERM', () => {
-        console.log('🛑 Received SIGTERM, shutting down gracefully...');
-        startProcess.kill('SIGTERM');
-    });
+    createUserProcess.on('close', (userCode) => {
+        console.log(`👤 User creation completed with code ${userCode}`);
 
-    process.on('SIGINT', () => {
-        console.log('🛑 Received SIGINT, shutting down gracefully...');
-        startProcess.kill('SIGINT');
+        // Start Directus server regardless of user creation result
+        console.log('🎯 Starting Directus server...');
+        const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
+            cwd: apiPath,
+            stdio: 'inherit',
+            env: process.env
+        });
+
+        startProcess.on('error', (error) => {
+            console.error('❌ Failed to start Directus:', error);
+            process.exit(1);
+        });
+
+        startProcess.on('close', (code) => {
+            console.log(`🔚 Directus process exited with code ${code}`);
+            process.exit(code);
+        });
+
+        // Handle graceful shutdown
+        process.on('SIGTERM', () => {
+            console.log('🛑 Received SIGTERM, shutting down gracefully...');
+            startProcess.kill('SIGTERM');
+        });
+
+        process.on('SIGINT', () => {
+            console.log('🛑 Received SIGINT, shutting down gracefully...');
+            startProcess.kill('SIGINT');
+        });
     });
 });
