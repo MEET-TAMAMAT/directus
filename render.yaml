@@ -44,7 +44,7 @@ services:
       - key: ADMIN_EMAIL
         value: meet.tamamat@gmail.com
       - key: ADMIN_PASSWORD
-        generateValue: true
+        value: DirectusAdmin123!
       # Storage configuration
       - key: STORAGE_LOCATIONS
         value: local

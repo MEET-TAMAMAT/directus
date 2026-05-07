@@ -116,8 +116,42 @@ checkDbProcess.on('close', (code) => {
         console.log(`⚠️ Database check/init completed with code ${code}`);
     }
 
-    // Start Directus regardless of initialization result
-    console.log('🎯 Starting Directus server...');
+    // Create admin user explicitly
+    console.log('👤 Creating admin user...');
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'DirectusAdmin123!';
+
+    console.log(`📧 Admin email: ${adminEmail}`);
+    console.log(`🔐 Admin password set from environment`);
+
+    const createUserProcess = spawn('node', [
+        'dist/cli/run.js', 'users', 'create',
+        '--email', adminEmail,
+        '--password', adminPassword,
+        '--role', 'administrator'
+    ], {
+        cwd: apiPath,
+        stdio: 'pipe',
+        env: process.env
+    });
+
+    createUserProcess.stdout.on('data', (data) => {
+        console.log('👤 User Creation:', data.toString().trim());
+    });
+
+    createUserProcess.stderr.on('data', (data) => {
+        console.log('⚠️ User Creation Warning:', data.toString().trim());
+    });
+
+    createUserProcess.on('close', (userCode) => {
+        if (userCode === 0) {
+            console.log('✅ Admin user created successfully');
+        } else {
+            console.log(`⚠️ Admin user creation completed with code ${userCode} (may already exist)`);
+        }
+
+        // Start Directus regardless of user creation result
+        console.log('🎯 Starting Directus server...');
     const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
         cwd: apiPath,
         stdio: 'inherit',
