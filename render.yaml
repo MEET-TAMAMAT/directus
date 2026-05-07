@@ -20,29 +20,55 @@ services:
         value: production
       - key: PORT
         value: 10000
+      - key: HOST
+        value: 0.0.0.0
       - key: PUBLIC_URL
         value: https://directus-api.onrender.com  # Replace with your actual Render URL
+      # Database configuration - Directus expects individual DB variables
+      - key: DB_CLIENT
+        value: pg
+      - key: DB_HOST
+        fromDatabase:
+          name: directus-postgres
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: directus-postgres
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: directus-postgres
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: directus-postgres
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: directus-postgres
+          property: password
       - key: DATABASE_URL
         fromDatabase:
           name: directus-postgres
           property: connectionString
+      # Directus secrets
       - key: KEY
         generateValue: true
       - key: SECRET
         generateValue: true
-      # Add other environment variables as needed
+      # Admin configuration
       - key: ADMIN_EMAIL
         value: meet.tamamat@gmail.com
       - key: ADMIN_PASSWORD
         generateValue: true
-      - key: DB_CLIENT
-        value: pg
+      # Storage configuration
       - key: STORAGE_LOCATIONS
         value: local
       - key: STORAGE_LOCAL_DRIVER
         value: local
       - key: STORAGE_LOCAL_ROOT
         value: ./uploads
+      # Logging and CORS
       - key: LOG_LEVEL
         value: info
       - key: CORS_ENABLED
