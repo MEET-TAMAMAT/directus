@@ -1,0 +1,63 @@
+# Render deployment configuration for Directus
+services:
+  # Main Directus API service
+  - type: web
+    name: directus-api
+    runtime: node
+    plan: starter
+    buildCommand: |
+      # Install dependencies
+      npm install -g pnpm@10.27.0
+      pnpm install --frozen-lockfile
+      # Build the project
+      pnpm build
+      # Build the API specifically
+      cd api && pnpm build
+    startCommand: |
+      cd api && node dist/cli/run.js start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: PUBLIC_URL
+        value: https://directus-api.onrender.com  # Replace with your actual Render URL
+      - key: DATABASE_URL
+        fromDatabase:
+          name: directus-postgres
+          property: connectionString
+      - key: KEY
+        generateValue: true
+      - key: SECRET
+        generateValue: true
+      # Add other environment variables as needed
+      - key: ADMIN_EMAIL
+        value: meet.tamamat@gmail.com
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: DB_CLIENT
+        value: pg
+      - key: STORAGE_LOCATIONS
+        value: local
+      - key: STORAGE_LOCAL_DRIVER
+        value: local
+      - key: STORAGE_LOCAL_ROOT
+        value: ./uploads
+      - key: LOG_LEVEL
+        value: info
+      - key: CORS_ENABLED
+        value: true
+      - key: CORS_ORIGIN
+        value: true
+
+  # PostgreSQL database
+databases:
+  - name: directus-postgres
+    plan: starter
+    databaseName: directus
+    user: directus_user
+
+# Optional: Redis for caching (uncomment if needed)
+# - type: redis
+#   name: directus-redis
+#   plan: starter
