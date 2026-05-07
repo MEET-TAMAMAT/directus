@@ -125,10 +125,9 @@ checkDbProcess.on('close', (code) => {
     console.log(`🔐 Admin password set from environment`);
 
     const createUserProcess = spawn('node', [
-        'dist/cli/run.js', 'users', 'create',
-        '--email', adminEmail,
-        '--password', adminPassword,
-        '--role', 'administrator'
+        'dist/cli/run.js', 'users', 'passwd',
+        adminEmail,
+        adminPassword
     ], {
         cwd: apiPath,
         stdio: 'pipe',
