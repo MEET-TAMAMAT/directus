@@ -42,7 +42,7 @@ services:
         generateValue: true
       # Admin configuration - Use Directus built-in admin creation
       - key: ADMIN_EMAIL
-        value: admin@directus.local
+        value: admin@example.com
       - key: ADMIN_PASSWORD
         value: DirectusAdmin123!
       # Storage configuration
