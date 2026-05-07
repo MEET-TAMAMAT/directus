@@ -55,22 +55,26 @@ async function createAdmin() {
             console.log('✅ Found existing admin role');
         }
 
+        // Get admin credentials from environment or use defaults
+        const adminEmail = process.env.INIT_ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'admin@directus.local';
+        const adminPassword = process.env.INIT_ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || 'DirectusAdmin123!';
+
         // Delete existing user if exists
-        await client.query("DELETE FROM directus_users WHERE email = $1", ['admin@render.local']);
+        await client.query("DELETE FROM directus_users WHERE email = $1", [adminEmail]);
         console.log('🗑️ Removed any existing admin user');
 
         // Create new admin user
         const userId = randomBytes(16).toString('hex');
-        const hashedPassword = await bcrypt.hash('RenderAdmin123!', 12);
+        const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
         await client.query(
             "INSERT INTO directus_users (id, first_name, last_name, email, password, role, status) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-            [userId, 'Admin', 'User', 'admin@render.local', hashedPassword, adminRoleId, 'active']
+            [userId, 'Admin', 'User', adminEmail, hashedPassword, adminRoleId, 'active']
         );
 
         console.log('🎉 Admin user created successfully!');
-        console.log('📧 Email: admin@render.local');
-        console.log('🔐 Password: RenderAdmin123!');
+        console.log('📧 Email:', adminEmail);
+        console.log('🔐 Password:', adminPassword);
 
     } catch (error) {
         console.error('❌ Error creating admin user:', error.message);

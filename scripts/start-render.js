@@ -118,8 +118,8 @@ checkDbProcess.on('close', (code) => {
 
     // Create admin user directly via database
     console.log('👤 Creating admin user directly...');
-    const adminCreateProcess = spawn('node', ['../create-admin.js'], {
-        cwd: apiPath,
+    const adminCreateProcess = spawn('node', [join(projectRoot, 'create-admin.js')], {
+        cwd: projectRoot,
         stdio: 'pipe',
         env: process.env
     });
