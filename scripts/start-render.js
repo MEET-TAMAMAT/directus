@@ -116,15 +116,15 @@ checkDbProcess.on('close', (code) => {
         console.log(`⚠️ Database check/init completed with code ${code}`);
     }
 
-    // Create admin user using Directus CLI with passwd command (simpler approach)
-    console.log('👤 Creating admin user with passwd command...');
+    // Create admin user without specifying role (avoid UUID issues)
+    console.log('👤 Creating admin user without role specification...');
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
     const adminPassword = process.env.ADMIN_PASSWORD || 'DirectusAdmin123!';
 
     const createUserProcess = spawn('node', [
         'dist/cli/run.js',
         'users',
-        'passwd',
+        'create',
         '--email', adminEmail,
         '--password', adminPassword
     ], {
