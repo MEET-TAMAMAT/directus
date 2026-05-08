@@ -116,88 +116,61 @@ checkDbProcess.on('close', (code) => {
         console.log(`⚠️ Database check/init completed with code ${code}`);
     }
 
-    // Create admin role first, then admin user
-    console.log('👤 Creating administrator role...');
-    const createRoleProcess = spawn('node', [
+    // Create admin user using Directus CLI with passwd command (simpler approach)
+    console.log('👤 Creating admin user with passwd command...');
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'DirectusAdmin123!';
+
+    const createUserProcess = spawn('node', [
         'dist/cli/run.js',
-        'roles',
-        'create',
-        '--role', 'Administrator',
-        '--admin'
+        'users',
+        'passwd',
+        '--email', adminEmail,
+        '--password', adminPassword
     ], {
         cwd: apiPath,
         stdio: 'pipe',
         env: process.env
     });
 
-    createRoleProcess.stdout.on('data', (data) => {
-        console.log('👑 Role Creation:', data.toString().trim());
+    createUserProcess.stdout.on('data', (data) => {
+        console.log('👤 User Creation:', data.toString().trim());
     });
 
-    createRoleProcess.stderr.on('data', (data) => {
-        console.log('⚠️ Role Creation:', data.toString().trim());
+    createUserProcess.stderr.on('data', (data) => {
+        console.log('⚠️ User Creation:', data.toString().trim());
     });
 
-    createRoleProcess.on('close', (roleCode) => {
-        console.log(`👑 Role creation completed with code ${roleCode}`);
+    createUserProcess.on('close', (userCode) => {
+        console.log(`👤 User creation completed with code ${userCode}`);
 
-        // Now create admin user
-        console.log('👤 Creating admin user...');
-        const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
-        const adminPassword = process.env.ADMIN_PASSWORD || 'DirectusAdmin123!';
-
-        const createUserProcess = spawn('node', [
-            'dist/cli/run.js',
-            'users',
-            'create',
-            '--email', adminEmail,
-            '--password', adminPassword,
-            '--role', 'Administrator'
-        ], {
+        // Start Directus server regardless of user creation result
+        console.log('🎯 Starting Directus server...');
+        const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
             cwd: apiPath,
-            stdio: 'pipe',
+            stdio: 'inherit',
             env: process.env
         });
 
-        createUserProcess.stdout.on('data', (data) => {
-            console.log('👤 User Creation:', data.toString().trim());
+        startProcess.on('error', (error) => {
+            console.error('❌ Failed to start Directus:', error);
+            process.exit(1);
         });
 
-        createUserProcess.stderr.on('data', (data) => {
-            console.log('⚠️ User Creation:', data.toString().trim());
+        startProcess.on('close', (code) => {
+            console.log(`🔚 Directus process exited with code ${code}`);
+            process.exit(code);
         });
 
-        createUserProcess.on('close', (userCode) => {
-            console.log(`👤 User creation completed with code ${userCode}`);
+        // Handle graceful shutdown
+        process.on('SIGTERM', () => {
+            console.log('🛑 Received SIGTERM, shutting down gracefully...');
+            startProcess.kill('SIGTERM');
+        });
 
-            // Start Directus server regardless of user creation result
-            console.log('🎯 Starting Directus server...');
-            const startProcess = spawn('node', ['dist/cli/run.js', 'start'], {
-                cwd: apiPath,
-                stdio: 'inherit',
-                env: process.env
-            });
-
-            startProcess.on('error', (error) => {
-                console.error('❌ Failed to start Directus:', error);
-                process.exit(1);
-            });
-
-            startProcess.on('close', (code) => {
-                console.log(`🔚 Directus process exited with code ${code}`);
-                process.exit(code);
-            });
-
-            // Handle graceful shutdown
-            process.on('SIGTERM', () => {
-                console.log('🛑 Received SIGTERM, shutting down gracefully...');
-                startProcess.kill('SIGTERM');
-            });
-
-            process.on('SIGINT', () => {
-                console.log('🛑 Received SIGINT, shutting down gracefully...');
-                startProcess.kill('SIGINT');
-            });
+        process.on('SIGINT', () => {
+            console.log('🛑 Received SIGINT, shutting down gracefully...');
+            startProcess.kill('SIGINT');
         });
     });
 });
