@@ -10,7 +10,10 @@
 		"lint:style": "stylelint '**/*.{css,scss,vue}' --ignore-path .gitignore --cache",
 		"test": "pnpm --recursive --filter '!tests-blackbox' test",
 		"test:blackbox": "rimraf ./dist && pnpm --filter directus deploy --legacy --prod dist && pnpm --filter tests-blackbox test",
-		"test:coverage": "pnpm --recursive --filter '!tests-blackbox' test:coverage"
+		"test:coverage": "pnpm --recursive --filter '!tests-blackbox' test:coverage",
+		"deploy:railway": "node .deployment-guard.js railway && echo 'Deploy to Railway manually: git push railway main'",
+		"deploy:render": "node .deployment-guard.js render && echo 'Deploy to Render: git push origin main'",
+		"deploy:check": "echo 'Railway Status:' && git remote -v | grep railway || echo 'No Railway remote found' && echo 'Render Status: Configured via render.yaml'"
 	},
 	"devDependencies": {
 		"@changesets/cli": "catalog:",

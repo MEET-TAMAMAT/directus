@@ -16,6 +16,13 @@
         "MAILTRAP_ACCOUNT_ID": "${MAILTRAP_ACCOUNT_ID}",
         "MAILTRAP_TEST_INBOX_ID": "${MAILTRAP_TEST_INBOX_ID}"
       }
+    },
+    "render": {
+      "command": "npx",
+      "args": ["-y", "mcp-render"],
+      "env": {
+        "RENDER_API_KEY": "${RENDER_API_KEY}"
+      }
     }
   }
 }
