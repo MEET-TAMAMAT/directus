@@ -1,5 +1,6 @@
 {
 	"enabledMcpjsonServers": ["git", "mailtrap"],
+	"disabledMcpjsonServers": ["claude_ai_Render_MCP_Server_URL"],
 	"env": {
 		"MAILTRAP_API_TOKEN": "7215f1b871b84d60c9b4a911774a53e2",
 		"DEFAULT_FROM_EMAIL": "noreply@tamamat.app",
