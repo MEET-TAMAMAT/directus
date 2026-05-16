@@ -10,6 +10,6 @@
 		"type": "hook",
 		"path": "index.js",
 		"source": "index.js",
-		"host": "^10.0.0"
+		"host": "^11.0.0"
 	}
 }
