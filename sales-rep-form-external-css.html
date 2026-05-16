@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Rep Registration - TAMAMAT</title>
+    <link rel="stylesheet" href="form-styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <div class="header">
+            <h1>Join TAMAMAT as a Sales Representative</h1>
+            <p>Fill in the information below to set up your account and start helping language schools discover our innovative teaching platform.</p>
+        </div>
+
+        <div class="form-card">
+            <form id="salesForm">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label class="form-label">First Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="John" required>
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-col">
+                        <label class="form-label">Last Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="Smith" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <label class="form-label">Email <span class="required">*</span></label>
+                        <input type="email" class="form-input" placeholder="john@example.com" required>
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-col">
+                        <label class="form-label">Phone # <span class="required">*</span></label>
+                        <input type="tel" class="form-input" placeholder="+1 (555) 123-4567" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0; color: #6b7280; font-size: 0.875rem;">
+                    🔐 Fill in the information below to set up your password
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <label class="form-label">Enter your password <span class="required">*</span></label>
+                        <div class="password-container">
+                            <input type="password" class="form-input" placeholder="••••••••" required>
+                            <button type="button" class="password-toggle">👁️</button>
+                        </div>
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-col">
+                        <label class="form-label">Confirm your password <span class="required">*</span></label>
+                        <div class="password-container">
+                            <input type="password" class="form-input" placeholder="••••••••" required>
+                            <button type="button" class="password-toggle">👁️</button>
+                        </div>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Create Sales Rep Account</button>
+                <div id="messages"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="form-script.js"></script>
+</body>
+</html>

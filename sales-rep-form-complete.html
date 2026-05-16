@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Rep Registration - TAMAMAT</title>
+    <meta name="description" content="Join TAMAMAT as a sales representative and help language schools discover our innovative teaching platform.">
+    <meta name="theme-color" content="#3b82f6">
+
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Theme variables */
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+
+            /* Light theme */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border: #d1d5db;
+            --border-focus: #3b82f6;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #475569;
+            --border-focus: #60a5fa;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Layout */
+        .page-container {
+            min-height: 100vh;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            max-width: 42rem;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .form-container {
+            max-width: 28rem;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+
+        .form-card {
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .required {
+            color: var(--error);
+            margin-left: 2px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-input:hover {
+            border-color: var(--text-muted);
+        }
+
+        .form-input.error {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            min-height: 1.25rem;
+        }
+
+        .help-text {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Password field */
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            color: var(--text-muted);
+            padding: 0.25rem;
+        }
+
+        .password-toggle:hover {
+            color: var(--text-secondary);
+        }
+
+        /* Divider */
+        .divider-container {
+            position: relative;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .divider-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider-text {
+            position: relative;
+            background: var(--bg-primary);
+            padding: 0 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        /* Submit button */
+        .submit-button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .submit-button:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-loading {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .spinner {
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .form-col {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-col:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .form-input:focus-visible,
+        .submit-button:focus-visible,
+        .password-toggle:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* High contrast support */
+        @media (prefers-contrast: high) {
+            :root {
+                --border: #000000;
+                --border-focus: #0000ff;
+            }
+
+            [data-theme="dark"] {
+                --border: #ffffff;
+                --border-focus: #00ffff;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+
+    <!-- Theme Detection Script -->
+    <script>
+        function initializeTheme() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const themeParam = urlParams.get('theme');
+            const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let theme = 'light';
+            if (themeParam === 'dark' || themeParam === 'light') {
+                theme = themeParam;
+            } else if (systemPrefersDark) {
+                theme = 'dark';
+            }
+
+            document.documentElement.setAttribute('data-theme', theme);
+            window.currentTheme = theme;
+            console.log('TAMAMAT Form Theme initialized:', theme);
+        }
+
+        initializeTheme();
+    </script>
+</head>
+<body class="page-container">
+    <div class="header">
+        <h1>Join TAMAMAT as a Sales Representative</h1>
+        <p>Fill in the information below to set up your account and start helping language schools discover our innovative teaching platform.</p>
+    </div>
+
+    <div class="form-container">
+        <div class="form-card">
+            <form id="salesRepForm" novalidate>
+                <!-- Name Fields -->
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="sales_rep_first_name" class="form-label">
+                                First Name <span class="required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="sales_rep_first_name"
+                                name="sales_rep_first_name"
+                                class="form-input"
+                                placeholder="John"
+                                required
+                                maxlength="50"
+                            >
+                            <div id="first-name-error" class="error-message" aria-live="polite"></div>
+                        </div>
+
+                        <div class="form-col">
+                            <label for="sales_rep_last_name" class="form-label">
+                                Last Name <span class="required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="sales_rep_last_name"
+                                name="sales_rep_last_name"
+                                class="form-input"
+                                placeholder="Smith"
+                                required
+                            >
+                            <div id="last-name-error" class="error-message" aria-live="polite"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Fields -->
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="sales_rep_email" class="form-label">
+                                Email <span class="required">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="sales_rep_email"
+                                name="sales_rep_email"
+                                class="form-input"
+                                placeholder="john@example.com"
+                                required
+                            >
+                            <div id="email-error" class="error-message" aria-live="polite"></div>
+                        </div>
+
+                        <div class="form-col">
+                            <label for="sales_rep_phone_number" class="form-label">
+                                Phone # <span class="required">*</span>
+                            </label>
+                            <input
+                                type="tel"
+                                id="sales_rep_phone_number"
+                                name="sales_rep_phone_number"
+                                class="form-input"
+                                placeholder="+1 (555) 123-4567"
+                                required
+                            >
+                            <div id="phone-error" class="error-message" aria-live="polite"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="divider-container">
+                    <div class="divider-line"></div>
+                    <span class="divider-text">🔐 Fill in the information below to set up your password</span>
+                </div>
+
+                <!-- Password Fields -->
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="sales_rep_password" class="form-label">
+                                Enter your password <span class="required">*</span>
+                            </label>
+                            <div class="password-container">
+                                <input
+                                    type="password"
+                                    id="sales_rep_password"
+                                    name="sales_rep_password"
+                                    class="form-input"
+                                    placeholder="••••••••"
+                                    required
+                                    minlength="8"
+                                >
+                                <button type="button" class="password-toggle" aria-label="Toggle password visibility">👁️</button>
+                            </div>
+                            <div class="help-text">Minimum 8 characters required</div>
+                            <div id="password-error" class="error-message" aria-live="polite"></div>
+                        </div>
+
+                        <div class="form-col">
+                            <label for="sales_rep_password_confirm" class="form-label">
+                                Confirm your password <span class="required">*</span>
+                            </label>
+                            <div class="password-container">
+                                <input
+                                    type="password"
+                                    id="sales_rep_password_confirm"
+                                    name="sales_rep_password_confirm"
+                                    class="form-input"
+                                    placeholder="••••••••"
+                                    required
+                                    minlength="8"
+                                >
+                                <button type="button" class="password-toggle" aria-label="Toggle password confirmation visibility">👁️</button>
+                            </div>
+                            <div id="password-confirm-error" class="error-message" aria-live="polite"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-button" id="submitBtn">
+                    <span class="submit-text">Create Sales Rep Account</span>
+                    <span class="submit-loading">
+                        <span class="spinner"></span>Creating Account...
+                    </span>
+                </button>
+
+                <!-- Messages -->
+                <div id="formMessages" role="alert" aria-live="assertive"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form Validation
+        class FormValidator {
+            constructor() {
+                this.errors = {};
+            }
+
+            validateField(field) {
+                const value = field.value.trim();
+                const fieldName = field.name;
+                let isValid = true;
+
+                delete this.errors[fieldName];
+
+                if (field.hasAttribute('required') && !value) {
+                    this.errors[fieldName] = 'This field is required.';
+                    isValid = false;
+                }
+
+                if (field.type === 'email' && value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        this.errors[fieldName] = 'Please enter a valid email address.';
+                        isValid = false;
+                    }
+                }
+
+                if (fieldName === 'sales_rep_password' && value) {
+                    if (value.length < 8) {
+                        this.errors[fieldName] = 'Password must be at least 8 characters long.';
+                        isValid = false;
+                    }
+                }
+
+                if (fieldName === 'sales_rep_password_confirm' && value) {
+                    const password = document.getElementById('sales_rep_password').value;
+                    if (value !== password) {
+                        this.errors[fieldName] = 'Passwords do not match.';
+                        isValid = false;
+                    }
+                }
+
+                if (field.type === 'tel' && value) {
+                    const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
+                    if (!phoneRegex.test(value)) {
+                        this.errors[fieldName] = 'Please enter a valid phone number.';
+                        isValid = false;
+                    }
+                }
+
+                this.updateFieldDisplay(field, isValid);
+                return isValid;
+            }
+
+            updateFieldDisplay(field, isValid) {
+                const fieldName = field.name;
+                const errorElement = document.getElementById(fieldName.replace('sales_rep_', '') + '-error');
+
+                if (isValid) {
+                    field.classList.remove('error');
+                    if (errorElement) errorElement.textContent = '';
+                } else {
+                    field.classList.add('error');
+                    if (errorElement && this.errors[fieldName]) {
+                        errorElement.textContent = this.errors[fieldName];
+                    }
+                }
+            }
+
+            validateForm(form) {
+                const fields = form.querySelectorAll('input[required]');
+                let isFormValid = true;
+
+                fields.forEach(field => {
+                    if (!this.validateField(field)) {
+                        isFormValid = false;
+                    }
+                });
+
+                return isFormValid;
+            }
+        }
+
+        // Form Handler
+        class SalesRepForm {
+            constructor() {
+                this.validator = new FormValidator();
+                this.form = document.getElementById('salesRepForm');
+                this.submitBtn = document.getElementById('submitBtn');
+                this.messagesEl = document.getElementById('formMessages');
+
+                this.initializeForm();
+            }
+
+            initializeForm() {
+                // Validation
+                this.form.querySelectorAll('input').forEach(input => {
+                    input.addEventListener('blur', () => this.validator.validateField(input));
+                    input.addEventListener('input', () => {
+                        if (input.classList.contains('error')) {
+                            this.validator.validateField(input);
+                        }
+                    });
+                });
+
+                // Password toggles
+                this.form.querySelectorAll('.password-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', this.togglePasswordVisibility.bind(this));
+                });
+
+                // Form submission
+                this.form.addEventListener('submit', this.handleSubmit.bind(this));
+            }
+
+            togglePasswordVisibility(event) {
+                const toggle = event.target;
+                const input = toggle.previousElementSibling;
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    toggle.textContent = '🙈';
+                } else {
+                    input.type = 'password';
+                    toggle.textContent = '👁️';
+                }
+            }
+
+            async handleSubmit(event) {
+                event.preventDefault();
+
+                if (!this.validator.validateForm(this.form)) {
+                    this.showMessage('Please correct the errors above.', 'error');
+                    return;
+                }
+
+                this.setLoadingState(true);
+
+                try {
+                    const formData = this.getFormData();
+                    const response = await this.submitForm(formData);
+
+                    if (response.success) {
+                        this.showMessage('🎉 Welcome to TAMAMAT! Your sales representative account has been created successfully. You will receive a welcome email shortly.', 'success');
+                        this.form.reset();
+                    } else {
+                        throw new Error(response.error || 'Submission failed');
+                    }
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    this.showMessage('There was an error creating your account. Please try again.', 'error');
+                } finally {
+                    this.setLoadingState(false);
+                }
+            }
+
+            getFormData() {
+                const formData = new FormData(this.form);
+                const data = {};
+
+                for (let [key, value] of formData.entries()) {
+                    data[key] = value;
+                }
+
+                data.status = 'published';
+                data.form_theme = window.currentTheme;
+                data.submission_source = 'embeddable_form';
+
+                return data;
+            }
+
+            async submitForm(data) {
+                console.log('Form data:', data);
+
+                // Demo simulation
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({ success: true, data: { id: 'demo-' + Date.now() } });
+                    }, 2000);
+                });
+            }
+
+            showMessage(message, type) {
+                this.messagesEl.innerHTML = `<div class="message ${type}">${message}</div>`;
+
+                if (type === 'success') {
+                    setTimeout(() => this.messagesEl.innerHTML = '', 10000);
+                }
+            }
+
+            setLoadingState(loading) {
+                const submitText = this.submitBtn.querySelector('.submit-text');
+                const loadingText = this.submitBtn.querySelector('.submit-loading');
+
+                if (loading) {
+                    this.submitBtn.disabled = true;
+                    submitText.style.display = 'none';
+                    loadingText.style.display = 'flex';
+                } else {
+                    this.submitBtn.disabled = false;
+                    submitText.style.display = 'inline';
+                    loadingText.style.display = 'none';
+                }
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            new SalesRepForm();
+        });
+    </script>
+</body>
+</html>

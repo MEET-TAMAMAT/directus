@@ -1,0 +1,188 @@
+/* TAMAMAT Sales Rep Form Styles */
+
+/* Reset and base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.5;
+    background: #f8fafc;
+    color: #1f2937;
+    transition: all 0.2s ease;
+}
+
+/* Dark theme */
+[data-theme="dark"] body {
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+/* Form container */
+.form-container {
+    max-width: 28rem;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.form-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] .form-card {
+    background: #1e293b;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+[data-theme="dark"] .header p {
+    color: #9ca3af;
+}
+
+/* Form fields */
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-col {
+    flex: 1;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.required {
+    color: #ef4444;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+[data-theme="dark"] .form-input {
+    background: #374151;
+    border-color: #4b5563;
+    color: white;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+.form-input.error {
+    border-color: #ef4444;
+}
+
+/* Password fields */
+.password-container {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+/* Button */
+.submit-btn {
+    width: 100%;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.875rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.2s;
+}
+
+.submit-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Error messages */
+.error-message {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    min-height: 1.25rem;
+}
+
+/* Messages */
+.message {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.message.success {
+    background: rgba(34,197,94,0.1);
+    color: #059669;
+    border: 1px solid rgba(34,197,94,0.2);
+}
+
+.message.error {
+    background: rgba(239,68,68,0.1);
+    color: #dc2626;
+    border: 1px solid rgba(239,68,68,0.2);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-col {
+        margin-bottom: 1.5rem;
+    }
+}

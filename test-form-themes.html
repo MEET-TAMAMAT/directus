@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAMAMAT Form - Theme Testing</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .test-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .theme-frame {
+            border: 3px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .theme-label {
+            background: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .theme-frame iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            display: block;
+        }
+
+        .instructions {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .test-urls {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 1rem 0;
+        }
+
+        .test-urls div {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎓 TAMAMAT Embeddable Form - Theme Testing</h1>
+            <p>Test both light and dark themes side-by-side with Tailwind CSS styling and updated placeholders.</p>
+        </div>
+
+        <div class="instructions">
+            <h2>Testing Instructions</h2>
+            <ol>
+                <li><strong>Visual Verification:</strong> Compare both themes for consistent styling and readability</li>
+                <li><strong>Color Scheme:</strong> Verify background, text, and input colors match expected themes</li>
+                <li><strong>Interactive Elements:</strong> Test form fields, password toggles, and submit button</li>
+                <li><strong>Validation:</strong> Try submitting with empty fields to test error states</li>
+                <li><strong>Responsive Design:</strong> Resize the window to test mobile layout</li>
+            </ol>
+
+            <h3>Test URLs for Manual Testing:</h3>
+            <div class="test-urls">
+                <div><strong>Light Theme:</strong> sales-rep-form-complete.html?theme=light</div>
+                <div><strong>Dark Theme:</strong> sales-rep-form-complete.html?theme=dark</div>
+                <div><strong>Auto Theme:</strong> sales-rep-form-complete.html (uses system preference)</div>
+            </div>
+        </div>
+
+        <div class="test-grid">
+            <div class="theme-frame">
+                <div class="theme-label">☀️ LIGHT THEME</div>
+                <iframe src="sales-rep-form-complete.html?theme=light" title="Light Theme Form"></iframe>
+            </div>
+
+            <div class="theme-frame">
+                <div class="theme-label">🌙 DARK THEME</div>
+                <iframe src="sales-rep-form-complete.html?theme=dark" title="Dark Theme Form"></iframe>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2>🧪 Testing Checklist</h2>
+            <h3>✅ Visual Elements</h3>
+            <ul>
+                <li>[ ] Background colors are distinct between themes</li>
+                <li>[ ] Text is readable and high-contrast in both themes</li>
+                <li>[ ] Input fields have proper styling and borders</li>
+                <li>[ ] Button colors and hover states work correctly</li>
+                <li>[ ] Password toggle icons are visible and functional</li>
+                <li>[ ] Divider with icon displays properly</li>
+            </ul>
+
+            <h3>✅ Functionality</h3>
+            <ul>
+                <li>[ ] Theme detection from URL parameter works</li>
+                <li>[ ] All form fields accept input correctly</li>
+                <li>[ ] Real-time validation triggers on blur/input</li>
+                <li>[ ] Password visibility toggle works</li>
+                <li>[ ] Password confirmation validation works</li>
+                <li>[ ] Submit button shows loading state</li>
+                <li>[ ] Success/error messages display properly</li>
+            </ul>
+
+            <h3>✅ Responsive Design</h3>
+            <ul>
+                <li>[ ] Form adapts to mobile screen sizes</li>
+                <li>[ ] Field rows stack properly on narrow screens</li>
+                <li>[ ] Text remains readable at all sizes</li>
+                <li>[ ] Touch targets are adequate on mobile</li>
+            </ul>
+
+            <h3>✅ Accessibility</h3>
+            <ul>
+                <li>[ ] Proper focus indicators on form elements</li>
+                <li>[ ] Screen reader labels are present</li>
+                <li>[ ] Error messages are announced to screen readers</li>
+                <li>[ ] High contrast mode compatibility</li>
+            </ul>
+        </div>
+
+        <div class="instructions">
+            <h2>🚀 Next Steps</h2>
+            <p>Once testing is complete, you can:</p>
+            <ol>
+                <li><strong>Deploy the form</strong> to your Directus instance as a custom endpoint</li>
+                <li><strong>Integrate with iframe</strong> on dev.tamamat.com using the integration guide</li>
+                <li><strong>Connect to Directus API</strong> by replacing the placeholder submission code</li>
+                <li><strong>Test form submissions</strong> end-to-end with your CRM flows</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
