@@ -1,5 +1,9 @@
 {
 	"files": [],
 	"references": [{ "path": "./api" }, { "path": "./app" }, { "path": "./sdk" }],
-	"exclude": ["node_modules", "dist", "**/*.js", "**/*.d.ts", "tests", "packages"]
+	"exclude": ["node_modules", "dist", "**/*.js", "**/*.d.ts", "tests", "packages"],
+	"compilerOptions": {
+		"noEmit": true,
+		"skipLibCheck": true
+	}
 }
