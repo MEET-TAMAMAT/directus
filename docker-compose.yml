@@ -20,6 +20,7 @@ services:
       ADMIN_EMAIL: 'admin@test.com'
       ADMIN_PASSWORD: 'directus123'
       PUBLIC_URL: 'http://localhost:8055'
+      # Auto-deployment test comment - 2026-05-17
       EXTENSIONS_PATH: '/directus/extensions'
     depends_on:
       - database
