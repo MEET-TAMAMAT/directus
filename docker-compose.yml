@@ -17,20 +17,22 @@ services:
       DB_DATABASE: 'directus'
       DB_USER: 'directus'
       DB_PASSWORD: 'directus'
-      ADMIN_EMAIL: 'admin@test.com'
-      ADMIN_PASSWORD: 'directus123'
+      ADMIN_EMAIL: 'meet.tamamat@gmail.com'
+      ADMIN_PASSWORD: 'NewPass123!'
       PUBLIC_URL: 'http://localhost:8055'
-      # Auto-deployment test comment - 2026-05-17
       EXTENSIONS_PATH: '/directus/extensions'
+      CORS_ENABLED: 'true'
+      CORS_ORIGIN: 'http://localhost:3000,https://localhost:3000,http://localhost:5173,https://localhost:5173,http://127.0.0.1:3000,http://192.168.0.100:3000,http://192.168.0.100:5173'
     depends_on:
       - database
 
   database:
-    image: postgis/postgis:16-3.4-alpine
+    image: postgres:18
     environment:
       POSTGRES_USER: 'directus'
       POSTGRES_PASSWORD: 'directus'
       POSTGRES_DB: 'directus'
+      PGDATA: '/var/lib/postgresql/data/18/docker'
     volumes:
       - directus_data:/var/lib/postgresql/data
 
