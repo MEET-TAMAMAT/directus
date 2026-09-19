@@ -52,6 +52,25 @@ signaling, or reconnect logic — push to staging first.
   after join — don't trust the live read-back for anything persisted to
   `localStorage`; pre-seed the CID from the value already passed into the
   join/rejoin API call instead.
+- `client.self.setDevice()` synchronously calls `disableTrack()`
+  internally before its async `getUserMedia` call resolves — confirmed
+  by reading the actual RTK SDK bundle
+  (`node_modules/@cloudflare/realtimekit/dist/index.cjs.js`,
+  `AudioMediaHandler.setDevice`/`VideoMediaHandler.setDevice`). Any
+  `setDevice()` call made after a component has already rendered will
+  cause a visible, brief "disabled" flash in any UI bound to that
+  track's enabled state. `enableAudio()`/`enableVideo()` alone do NOT
+  have this synchronous-disable behavior, so they're safe to call
+  unconditionally — `setDevice()` is the one that needs to run behind a
+  loading overlay or otherwise hidden from the user.
+- A React `useRef` does not survive a page reload/remount — using one
+  to mean "have I already done this expensive one-time thing" silently
+  breaks on any reload, since the ref resets to its default.
+  `sessionStorage`/`localStorage` can work around this, but the better
+  fix, when possible, is to check whether the "one-time" work is
+  actually redundant with something else that already runs
+  unconditionally elsewhere — removing the redundant call beats
+  remembering not to repeat it.
 
 ## Infra gotchas
 
